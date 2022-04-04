@@ -206,7 +206,7 @@ testDA <- function(data, predictor, paired = NULL, covars = NULL, R = 20,
   }
   
   ### Run tests
-  if(verbose) cat(paste("Testing", length(tests),"methods", R,"times each...\n"))
+  if(verbose) cat(paste("Testing", length(tests),"methods", R,"times each...\n")); cat(tests)
   # Progress bar
   pb <- txtProgressBar(max = length(tests.par), style = 3)
   progress <- function(n) setTxtProgressBar(pb, n)
@@ -265,6 +265,7 @@ testDA <- function(data, predictor, paired = NULL, covars = NULL, R = 20,
                                lia = do.call(get(noquote(paste0("DA.",i))),c(list(count_tables[[run.no]],rands[[run.no]],paired,covars,out.all, p.adj), argsL[[i]])),
                                lic = do.call(get(noquote(paste0("DA.",i))),c(list(count_tables[[run.no]],rands[[run.no]],paired,covars,out.all, p.adj), argsL[[i]])),
                                lli2 = do.call(get(noquote(paste0("DA.",i))),c(list(count_tables[[run.no]],rands[[run.no]],paired,covars,out.all, p.adj), argsL[[i]])),
+                               masl = do.call(get(noquote(paste0("DA.",i))),c(list(count_tables[[run.no]],rands[[run.no]],paired,covars,out.all, p.adj), argsL[[i]])),
                                kru = do.call(get(noquote(paste0("DA.",i))),c(list(count_tables[[run.no]],rands[[run.no]], relative, p.adj), argsL[[i]])),
                                aov = do.call(get(noquote(paste0("DA.",i))),c(list(count_tables[[run.no]],rands[[run.no]],covars, relative, p.adj), argsL[[i]])),
                                lao = do.call(get(noquote(paste0("DA.",i))),c(list(count_tables[[run.no]],rands[[run.no]],covars,relative, p.adj), argsL[[i]])),
