@@ -69,7 +69,7 @@ testDA <- function(data, predictor, paired = NULL, covars = NULL, R = 20, untest
                              "wil","kru","qua","fri","abc",
                              "ttt","ltt","ltt2","tta","ttc","ttr",
                              "aov","lao","lao2","aoa","aoc",
-                             "vli","lim","lli","lli2","lia","lic", "masl", "mascplm", "mascplm2"),
+                             "vli","lim","lli","lli2","lia","lic", "masl", "masl2", "masl3", "mascplm"),
                    relative = TRUE, effectSize = 5, k = NULL, cores = (detectCores()-1),
                    p.adj = "fdr", args = list(), out.all = NULL, alpha = 0.1, core.check = TRUE, verbose = TRUE){
 
