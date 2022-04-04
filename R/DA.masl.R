@@ -1,29 +1,3 @@
-#' Maaslin2 with LM (no normalisation / no transformation)
-#'
-#' Implementation of DESeq2 for \code{DAtest}
-#' Manual geometric means calculated to avoid errors, see https://github.com/joey711/phyloseq/issues/387
-#' @param data Either a matrix with counts/abundances, OR a \code{phyloseq} object. If a matrix/data.frame is provided rows should be taxa/genes/proteins and columns samples
-#' @param predictor The predictor of interest. Either a Factor or Numeric, OR if \code{data} is a \code{phyloseq} object the name of the variable in \code{sample_data(data)} in quotation
-#' @param paired For paired/blocked experimental designs. Either a Factor with Subject/Block ID for running paired/blocked analysis, OR if \code{data} is a \code{phyloseq} object the name of the variable in \code{sample_data(data)} in quotation
-#' @param covars Either a named list with covariables, OR if \code{data} is a \code{phyloseq} object a character vector with names of the variables in \code{sample_data(data)}
-#' @param out.all If TRUE, will run "LRT" which will produce one p-value for the \code{predictor}. If FALSE will run "Wald" test and will output p-value from one level of the predictor specified by \code{coeff}. If NULL (default) set as TRUE for multi-class \code{predictor} and FALSE otherwise
-#' @param p.adj Character. P-value adjustment. Default "fdr". See \code{p.adjust} for details
-#' @param coeff Integer. The log2FoldChange (and p-value if test="Wald") will be associated with this coefficient. This coefficient is by default compared to the intercept (1. level of \code{predictor}), change this with \code{coeff.ref}. Default 2, i.e. the 2. level of the \code{predictor}.
-#' @param coeff.ref Integer. Reference level of the \code{predictor}. Default the intercept, = 1 
-#' @param allResults If TRUE will return raw results from the \code{DESeq} function
-#' @param ... Additional arguments for the \code{DESeq} function
-#' @return A data.frame with with results.
-#' @examples
-#' # Creating random count_table and predictor
-#' set.seed(4)
-#' mat <- matrix(rnbinom(200, size = 0.1, mu = 500), nrow = 20, ncol = 10)
-#' rownames(mat) <- 1:20
-#' pred <- c(rep("Control", 5), rep("Treatment", 5))
-#' 
-#' # Running masl
-#' res <- DA.masl(data = mat, predictor = pred)
-#' @export
-
 DA.masl = function (data, predictor, paired = NULL, covars = NULL, out.all = NULL, 
           p.adj = "fdr", coeff = 2, coeff.ref = 1, allResults = FALSE, 
           ...) 
