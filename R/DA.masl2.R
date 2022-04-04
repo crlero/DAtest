@@ -1,6 +1,6 @@
-DA.mascplm2 = function (data, predictor, paired = NULL, covars = NULL, out.all = NULL, 
-                    p.adj = "fdr", coeff = 2, coeff.ref = 1, allResults = FALSE, 
-                    ...) 
+DA.masl = function (data, predictor, paired = NULL, covars = NULL, out.all = NULL, 
+          p.adj = "fdr", coeff = 2, coeff.ref = 1, allResults = FALSE, 
+          ...) 
 {
   ok <- tryCatch({
     loadNamespace("Maaslin2")
@@ -17,6 +17,9 @@ DA.mascplm2 = function (data, predictor, paired = NULL, covars = NULL, out.all =
     else {
       count_table <- data
     }
+    # transform data
+    count_table <- apply(count_table, 2, function(x) log(x + min(x[x > 0])/2)) # LOG transformation (add pseudocount of min/2)
+
     predictor <- as.factor(predictor)
     if (coeff == coeff.ref) 
       stop("coeff and coeff.ref cannot be the same")
@@ -60,22 +63,22 @@ DA.mascplm2 = function (data, predictor, paired = NULL, covars = NULL, out.all =
       }
     }
     x <- Maaslin2::Maaslin2(
-      input_data = x,
-      input_metadata = predictordf,
-      output = "./",
-      #min_abundance = 0.0001,
-      #min_prevalence = 0.1,
-      normalization = "CSS",
-      transform = "NONE",
-      analysis_method = "CPLM",
-      max_significance = 0.1,
-      fixed_effects = colnames(predictordf),
-      #random_effects = ,
-      correction = "BH",
-      cores=1,
-      standardize = FALSE,
-      plot_scatter = FALSE,
-      plot_heatmap = FALSE)
+            input_data = x,
+            input_metadata = predictordf,
+            output = "./",
+            #min_abundance = 0.0001,
+            #min_prevalence = 0.1,
+            normalization = "NONE",
+            transform = "NONE",
+            analysis_method = "LM",
+            max_significance = 0.1,
+            fixed_effects = colnames(predictordf),
+            #random_effects = ,
+            correction = "BH",
+            cores=1,
+            standardize = FALSE,
+            plot_scatter = FALSE,
+            plot_heatmap = FALSE)
     
     res <- x$results[x$results$metadata == "predictor",]
     res$ordering <- NA
@@ -86,7 +89,7 @@ DA.mascplm2 = function (data, predictor, paired = NULL, covars = NULL, out.all =
           0, "ordering"] <- paste0(levels(as.factor(predictor))[coeff.ref], 
                                    ">", levels(as.factor(predictor))[coeff])
     colnames(res)[6] <- "pval"
-    
+
     res <- res[, -which(names(res) %in% c("qval",",metadata"))]
     res$pval.adj <- p.adjust(res$pval, method = p.adj)
     names(res)[names(res) == 'feature'] <- 'Feature'
@@ -99,7 +102,7 @@ DA.mascplm2 = function (data, predictor, paired = NULL, covars = NULL, out.all =
     }
     
     
-    res$Method <- "Maaslin2 (CSS-CPLM) "
+    res$Method <- "Maaslin2 (LM (log)) "
     if (is(data, "phyloseq")) 
       res <- addTax(data, res)
     if (allResults) 

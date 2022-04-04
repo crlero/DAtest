@@ -17,10 +17,35 @@ DA.masl = function (data, predictor, paired = NULL, covars = NULL, out.all = NUL
     else {
       count_table <- data
     }
+    # transform data
+    TMMnorm = function(features) {
+    # Convert to Matrix from Data Frame
+    features_norm = as.matrix(features)
+    dd <- colnames(features_norm)
     
-    # normalize and transform data
-    count_table <- apply(count_table, 2, function(x) {x/max(sum(x), 1e-32)}) # TSS normalization
-    count_table <- apply(count_table, 2, function(x) log(x + min(x[x > 0])/2)) # LOG transformation (add pseudocount of min/2)
+    # TMM Normalizing the Data
+    X <- t(features_norm)
+    
+    libSize = edgeR::calcNormFactors(X, method = "TMM")
+    eff.lib.size = colSums(X) * libSize
+    
+    ref.lib.size = mean(eff.lib.size)
+    #Use the mean of the effective library sizes as a reference library size
+    X.output = sweep(X, MARGIN = 2, eff.lib.size, "/") * ref.lib.size
+    #Normalized read counts
+    
+    # Convert back to data frame
+    features_TMM <- as.data.frame(t(X.output))
+    
+    # Rename the True Positive Features - Same Format as Before
+    colnames(features_TMM) <- dd
+    
+    
+    # Return as list
+    return(features_TMM)
+    }
+
+    count_table <- t(TMMnorm(t(count_table))) # TMM transformation
 
     predictor <- as.factor(predictor)
     if (coeff == coeff.ref) 
@@ -104,7 +129,7 @@ DA.masl = function (data, predictor, paired = NULL, covars = NULL, out.all = NUL
     }
     
     
-    res$Method <- "Maaslin2 (LM (tss + log)) "
+    res$Method <- "Maaslin2 (LM (TMM)) "
     if (is(data, "phyloseq")) 
       res <- addTax(data, res)
     if (allResults) 

@@ -12,7 +12,7 @@ pruneTests <- function(tests, predictor, paired, covars, relative, decimal, zero
   if(!"samr" %in% rownames(installed.packages())) tests <- tests[!tests %in% c("sam")]
   if(!"mvabund" %in% rownames(installed.packages())) tests <- tests[!tests %in% c("mva")]
   if(!"ANCOMBC" %in% rownames(installed.packages())) tests <- tests[!tests %in% c("abc")]
-  
+  if(!"Maaslin2" %in% rownames(installed.packages())) tests <- tests[!tests %in% c("masl", "mascplm")] # if not installed maaslin2
   # Exclude tests that do not work with a paired argument
   if(!is.null(paired)){
     tests <- tests[!tests %in% c("abc","qpo","zpo","znb","bay","adx","ere","ere2","msf","aov","lao","lao2","aoa","aoc","kru","rai","spe","pea")]
@@ -52,10 +52,10 @@ pruneTests <- function(tests, predictor, paired, covars, relative, decimal, zero
   
   # Exclude if relative is false
   if(relative == FALSE){
-    tests <- tests[!tests %in% c("abc","sam","vli","ltt2","erq","ere","ere2","erq2","msf","zig","bay","ds2","ds2x","adx","lli2","lao2","aoa","aoc","llm2","rai","tta","ttc","lma","lmc","lia","lic")]
+    tests <- tests[!tests %in% c("abc","sam","vli","ltt2","erq","ere","ere2","erq2","msf","zig","bay","ds2","ds2x","adx","lli2","lao2","aoa","aoc","llm2","rai","tta","ttc","lma","lmc","lia","lic", "masl3")]
   } else {
     # Exclude if relative is TRUE
-    tests <- tests[!tests %in% c("lrm","lim")]
+    tests <- tests[!tests %in% c("lrm","lim", "mascplm")]
   }
   
   # Exclude if decimal is TRUE
