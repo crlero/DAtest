@@ -65,7 +65,7 @@ DA.mascplm2 = function (data, predictor, paired = NULL, covars = NULL, out.all =
       output = "./",
       #min_abundance = 0.0001,
       #min_prevalence = 0.1,
-      normalization = "TMM",
+      normalization = "CSS",
       transform = "NONE",
       analysis_method = "CPLM",
       max_significance = 0.1,
@@ -99,7 +99,7 @@ DA.mascplm2 = function (data, predictor, paired = NULL, covars = NULL, out.all =
     }
     
     
-    res$Method <- "Maaslin2 (CPLM) "
+    res$Method <- "Maaslin2 (CSS-CPLM) "
     if (is(data, "phyloseq")) 
       res <- addTax(data, res)
     if (allResults) 
