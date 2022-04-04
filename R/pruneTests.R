@@ -52,7 +52,7 @@ pruneTests <- function(tests, predictor, paired, covars, relative, decimal, zero
   
   # Exclude if relative is false
   if(relative == FALSE){
-    tests <- tests[!tests %in% c("abc","sam","vli","ltt2","erq","ere","ere2","erq2","msf","zig","bay","ds2","ds2x","adx","lli2","lao2","aoa","aoc","llm2","rai","tta","ttc","lma","lmc","lia","lic", "masl3")]
+    tests <- tests[!tests %in% c("abc","sam","vli","ltt2","erq","ere","ere2","erq2","msf","zig","bay","ds2","ds2x","adx","lli2","lao2","aoa","aoc","llm2","rai","tta","ttc","lma","lmc","lia","lic", "masl3", "masl4")]
   } else {
     # Exclude if relative is TRUE
     tests <- tests[!tests %in% c("lrm","lim", "mascplm")]

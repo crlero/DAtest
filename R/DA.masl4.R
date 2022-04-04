@@ -1,4 +1,4 @@
-DA.masl3 = function (data, predictor, paired = NULL, covars = NULL, out.all = NULL, 
+DA.masl4 = function (data, predictor, paired = NULL, covars = NULL, out.all = NULL, 
           p.adj = "fdr", coeff = 2, coeff.ref = 1, allResults = FALSE, 
           ...) 
 {
@@ -46,6 +46,7 @@ DA.masl3 = function (data, predictor, paired = NULL, covars = NULL, out.all = NU
     }
 
     count_table <- t(TMMnorm(t(count_table))) # TMM normalisation
+    count_table <- apply(count_table, 2, function(x) log(x + min(x[x > 0])/2)) # LOG transformation (add pseudocount of min/2)
 
     predictor <- as.factor(predictor)
     if (coeff == coeff.ref) 
@@ -129,7 +130,7 @@ DA.masl3 = function (data, predictor, paired = NULL, covars = NULL, out.all = NU
     }
     
     
-    res$Method <- "Maaslin2 (LM (TMM)) "
+    res$Method <- "Maaslin2 (LM (TMM + log)) "
     if (is(data, "phyloseq")) 
       res <- addTax(data, res)
     if (allResults) 
