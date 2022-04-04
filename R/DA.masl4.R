@@ -17,36 +17,6 @@ DA.masl4 = function (data, predictor, paired = NULL, covars = NULL, out.all = NU
     else {
       count_table <- data
     }
-    # transform data
-    TMMnorm = function(features) {
-    # Convert to Matrix from Data Frame
-    features_norm = as.matrix(features)
-    dd <- colnames(features_norm)
-    
-    # TMM Normalizing the Data
-    X <- t(features_norm)
-    
-    libSize = edgeR::calcNormFactors(X, method = "TMM")
-    eff.lib.size = colSums(X) * libSize
-    
-    ref.lib.size = mean(eff.lib.size)
-    #Use the mean of the effective library sizes as a reference library size
-    X.output = sweep(X, MARGIN = 2, eff.lib.size, "/") * ref.lib.size
-    #Normalized read counts
-    
-    # Convert back to data frame
-    features_TMM <- as.data.frame(t(X.output))
-    
-    # Rename the True Positive Features - Same Format as Before
-    colnames(features_TMM) <- dd
-    
-    
-    # Return as list
-    return(features_TMM)
-    }
-
-    count_table <- t(TMMnorm(t(count_table))) # TMM normalisation
-    count_table <- apply(count_table, 2, function(x) log(x + min(x[x > 0])/2)) # LOG transformation (add pseudocount of min/2)
 
     predictor <- as.factor(predictor)
     if (coeff == coeff.ref) 
@@ -96,8 +66,8 @@ DA.masl4 = function (data, predictor, paired = NULL, covars = NULL, out.all = NU
             output = "./",
             min_abundance = 0.0,
             min_prevalence = 0.0,
-            normalization = "NONE",
-            transform = "NONE",
+            normalization = "TMM",
+            transform = "LOG",
             analysis_method = "LM",
             max_significance = 0.1,
             fixed_effects = colnames(predictordf),

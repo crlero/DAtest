@@ -17,8 +17,6 @@ DA.masl2 = function (data, predictor, paired = NULL, covars = NULL, out.all = NU
     else {
       count_table <- data
     }
-    # transform data
-    count_table <- apply(count_table, 2, function(x) log(x + min(x[x > 0])/2)) # LOG transformation (add pseudocount of min/2)
 
     predictor <- as.factor(predictor)
     if (coeff == coeff.ref) 
@@ -69,7 +67,7 @@ DA.masl2 = function (data, predictor, paired = NULL, covars = NULL, out.all = NU
             min_abundance = 0.0,
             min_prevalence = 0.0,
             normalization = "NONE",
-            transform = "NONE",
+            transform = "LOG",
             analysis_method = "LM",
             max_significance = 0.1,
             fixed_effects = colnames(predictordf),
