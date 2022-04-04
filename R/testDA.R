@@ -295,7 +295,7 @@ testDA <- function(data, predictor, paired = NULL, covars = NULL, R = 20, untest
       res.sub[is.na(res.sub$pval),"pval"] <- 1
       res.sub[is.na(res.sub$pval.adj),"pval.adj"] <- 1
     }
-    print(paste0("Finished ", i, " repeat #", run.no))
+    cat(paste0("Finished ", i, " repeat #", run.no))
     run.time.sub <- (proc.time()-t1.sub)[3]
     return(list(res.sub,run.time.sub))
     
