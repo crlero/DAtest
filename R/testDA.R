@@ -61,7 +61,7 @@
 #' @importFrom pROC roc
 #' @export
 
-testDA <- function(data, predictor, paired = NULL, covars = NULL, R = 20,
+testDA <- function(data, predictor, paired = NULL, covars = NULL, R = 20, untest = c(),
                    tests = c("bay","ds2","ds2x","per","adx","znb","zpo","msf","zig",
                              "erq","erq2","neb","qpo","poi","sam",
                              "lrm","llm","llm2","lma","lmc",
@@ -69,7 +69,7 @@ testDA <- function(data, predictor, paired = NULL, covars = NULL, R = 20,
                              "wil","kru","qua","fri","abc",
                              "ttt","ltt","ltt2","tta","ttc","ttr",
                              "aov","lao","lao2","aoa","aoc",
-                             "vli","lim","lli","lli2","lia","lic", "masl"),
+                             "vli","lim","lli","lli2","lia","lic", "masl", "mascplm"),
                    relative = TRUE, effectSize = 5, k = NULL, cores = (detectCores()-1),
                    p.adj = "fdr", args = list(), out.all = NULL, alpha = 0.1, core.check = TRUE, verbose = TRUE){
 
@@ -122,6 +122,7 @@ testDA <- function(data, predictor, paired = NULL, covars = NULL, R = 20,
   if(any(count_table == 0)) zeroes <- TRUE
   tests <- unique(tests)
   if(!"zzz" %in% tests) tests <- pruneTests(tests, predictor, paired, covars, relative, decimal, zeroes)
+  if (length(untest)>0) { tests <- tests[!tests %in% untest]}
   tests.par <- paste0(unlist(lapply(seq_len(R), function(x) rep(x,length(tests)))),"_",rep(tests,R))
   if(length(tests) == 0) stop("No tests to run!")
   
@@ -206,7 +207,7 @@ testDA <- function(data, predictor, paired = NULL, covars = NULL, R = 20,
   }
   
   ### Run tests
-  if(verbose) cat(paste("Testing", length(tests),"methods", R,"times each...\n")); cat(tests)
+  if(verbose) cat(paste("Testing", length(tests),"methods", R,"times each...\n", tests));
   # Progress bar
   pb <- txtProgressBar(max = length(tests.par), style = 3)
   progress <- function(n) setTxtProgressBar(pb, n)
@@ -266,6 +267,7 @@ testDA <- function(data, predictor, paired = NULL, covars = NULL, R = 20,
                                lic = do.call(get(noquote(paste0("DA.",i))),c(list(count_tables[[run.no]],rands[[run.no]],paired,covars,out.all, p.adj), argsL[[i]])),
                                lli2 = do.call(get(noquote(paste0("DA.",i))),c(list(count_tables[[run.no]],rands[[run.no]],paired,covars,out.all, p.adj), argsL[[i]])),
                                masl = do.call(get(noquote(paste0("DA.",i))),c(list(count_tables[[run.no]],rands[[run.no]],paired,covars,out.all, p.adj), argsL[[i]])),
+                               mascplm = do.call(get(noquote(paste0("DA.",i))),c(list(count_tables[[run.no]],rands[[run.no]],paired,covars,out.all, p.adj), argsL[[i]])),
                                kru = do.call(get(noquote(paste0("DA.",i))),c(list(count_tables[[run.no]],rands[[run.no]], relative, p.adj), argsL[[i]])),
                                aov = do.call(get(noquote(paste0("DA.",i))),c(list(count_tables[[run.no]],rands[[run.no]],covars, relative, p.adj), argsL[[i]])),
                                lao = do.call(get(noquote(paste0("DA.",i))),c(list(count_tables[[run.no]],rands[[run.no]],covars,relative, p.adj), argsL[[i]])),
