@@ -1,4 +1,4 @@
-DA.mascp = function (data, predictor, paired = NULL, covars = NULL, out.all = NULL, 
+DA.mascplm = function (data, predictor, paired = NULL, covars = NULL, out.all = NULL, 
                     p.adj = "fdr", coeff = 2, coeff.ref = 1, allResults = FALSE, 
                     ...) 
 {
