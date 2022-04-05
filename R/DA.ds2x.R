@@ -42,7 +42,7 @@ DA.ds2x <- function(data, predictor, paired = NULL, covars = NULL, out.all = NUL
       count_table <- data
     }
 
-    count_table <- apply(count_table, 2, function(x) x + min(x[x > 0])/2))
+    count_table <- apply(count_table, 2, function(x) x + min(x[x > 0])/2)
     predictor <- as.factor(predictor)
     
     if(coeff == coeff.ref) stop("coeff and coeff.ref cannot be the same")
