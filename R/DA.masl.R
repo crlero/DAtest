@@ -101,7 +101,7 @@ DA.masl = function (data, predictor, paired = NULL, covars = NULL, out.all = NUL
     }
     
     
-    res$Method <- "Maaslin2 (LM (tss + log)) "
+    res$Method <- "Maaslin2 (LM (tss + log) - masl) "
     if (is(data, "phyloseq")) 
       res <- addTax(data, res)
     if (allResults) 
