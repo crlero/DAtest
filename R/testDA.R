@@ -206,7 +206,7 @@ testDA <- function(data, predictor, paired = NULL, covars = NULL, R = 20, untest
     argsL[tests[a]] <- args[tests[a]]
   }
 
-  if(verbose) cat(paste("Tests: ", tests.par));
+  if(verbose) {cat(paste0("Tests: ", paste(tests.par, collapse=", ")))}
   
   ### Run tests
   if(verbose) cat(paste("Testing", length(tests),"methods", R,"times each...\n"));
