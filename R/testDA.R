@@ -123,7 +123,7 @@ testDA <- function(data, predictor, paired = NULL, covars = NULL, R = 20, untest
   tests <- unique(tests)
   if(!"zzz" %in% tests) tests <- pruneTests(tests, predictor, paired, covars, relative, decimal, zeroes)
   if (length(untest)>0) { tests <- tests[!tests %in% untest]}
-  if (verbose) message(paste("Tests: ", paste(tests, collapse=", ")))
+  if (verbose) message(paste("Testis: ", paste(tests, collapse=", ")))
   tests.par <- paste0(unlist(lapply(seq_len(R), function(x) rep(x,length(tests)))),"_",rep(tests,R))
   if(length(tests) == 0) stop("No tests to run!")
   
