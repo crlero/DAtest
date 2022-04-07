@@ -205,6 +205,8 @@ testDA <- function(data, predictor, paired = NULL, covars = NULL, R = 20, untest
   for(a in seq_along(tests)){
     argsL[tests[a]] <- args[tests[a]]
   }
+
+  if(verbose) cat(paste("Tests: ", tests.par));
   
   ### Run tests
   if(verbose) cat(paste("Testing", length(tests),"methods", R,"times each...\n"));
