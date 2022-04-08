@@ -65,7 +65,7 @@ pruneTests <- function(tests, predictor, paired, covars, relative, decimal, zero
   
   # Only include if covars are present
   if(!is.null(covars)){
-    tests <- tests[tests %in% c("mva","znb","zpo","vli","qpo","poi","ds2","ds2x","neb","erq","erq2","zig","lrm","llm","llm2","lim","lli","lli2","aov","lao","lao2","aoa","aoc","lma","lmc","lia","lic")]
+    tests <- tests[tests %in% c("mva","znb","zpo","vli","qpo","poi","ds2","ds2x","neb","erq","erq2","zig","lrm","llm","llm2","lim","lli","lli2","aov","lao","lao2","aoa","aoc","lma","lmc","lia","lic", "masl", "masl2", "masl3", "masl4", "masl5", "mascplm")]
   }
   
   # Exclude if no zeroes
